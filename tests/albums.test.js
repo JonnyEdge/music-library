@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
-const Artist = require('../src/models/artist');
-const Album = require('../src/models/album');
+const Artist = require('../src/models/artistsmodel');
+const Album = require('../src/models/albumsmodel');
 
 describe('/albums', () => {
   let artist;
@@ -22,14 +22,14 @@ describe('/albums', () => {
   });
 
   describe('POST /artists/:artistId/albums', () => {
-    xit('creates a new album for a given artist', (done) => {
+    it('creates a new album for a given artist', (done) => {
       chai.request(server)
         .post(`/artists/${artist._id}/albums`)
         .send({
           name: 'InnerSpeaker',
           year: 2010,
         })
-        .end((error, res) => {
+        .end((error, res) => {  
           expect(error).to.equal(null);
           expect(res.status).to.equal(201);
 
@@ -43,7 +43,7 @@ describe('/albums', () => {
         });
     });
 
-    xit('returns a 404 and does not create an album if the artist does not exist', (done) => {
+    it('returns a 404 and does not create an album if the artist does not exist', (done) => {
       chai.request(server)
         .post('/artists/1234/albums')
         .send({
