@@ -62,21 +62,21 @@ exports.createAlbum = (request, response) => {
   Artist.findById(request.params.artistId, (error, artist) => {
     if (error) {
       response.status(404).json({ error: 'The artist could not be found.' });
+    } else {
+      const album = new Album({
+        artist,
+        name: request.body.name,
+        year: request.body.year,
+      });
+
+      album.save((createErr, createdAlbum) => {
+        if (createErr) {
+          response.json('Could not create an album.');
+        } else {
+          response.status(201).json(createdAlbum);
+        }
+      });
     }
-
-    const album = new Album({
-      artist,
-      name: request.body.name,
-      year: request.body.year,
-    });
-
-    album.save((createErr, createdAlbum) => {
-      if (createErr) {
-        response.json('Could not create an album.');
-      }
-
-      response.status(201).json(createdAlbum);
-    });
   });
 };
 
