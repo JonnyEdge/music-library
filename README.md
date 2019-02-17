@@ -1,6 +1,6 @@
-# Music API Test Suite
+# Music Library API
 
-This repository contains the integration test suite for Music Library API challenge.
+The challenge here was building a Music Library API that stores information about artists, albums and songs. The form the API was to take was a CRUD REST API interacting with a MongoDB database.
 
 ### Install
 - Fork this repository

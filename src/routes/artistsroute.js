@@ -9,5 +9,6 @@ router.get('/artists/:artistId', artistController.listID);
 router.patch('/artists/:artistId', artistController.amend);
 router.delete('/artists/:artistId', artistController.delete);
 router.post('/artists/:artistId/albums', artistController.createAlbum);
+router.post('/albums/:albumId/songs', artistController.createSong);
 
 module.exports = router;

@@ -1,5 +1,6 @@
 const Artist = require('../models/artistsmodel');
 const Album = require('../models/albumsmodel');
+const Song = require('../models/songsmodel');
 
 exports.createArtist = (request, response) => {
   const artist = new Artist({
@@ -77,6 +78,43 @@ exports.createAlbum = (request, response) => {
         }
       });
     }
+  });
+};
+
+exports.createSong = (request, response) => {
+  Album.findById(request.params.albumId, (albumNotFoundErr, album) => {
+    if (albumNotFoundErr) {
+      response.status(404).json('Album does not exist');
+    } 
+    Artist.findById(request.body.artistId, (artistNotFoundErr, artist) => {
+      if (artistNotFoundErr) {
+        response.status(404).json('Artist does not exist');
+      } else {
+        const song = new Song({
+          name: request.body.name,
+          artist,
+          album,
+        });
+
+        song.save((createErr, createdSong) => {
+          if (createErr) {
+            response.status(404).json('Could not create a song.');
+          } else {
+            response.status(201).json(createdSong);
+          }
+        });
+      }
+    });
+  });
+};
+
+exports.getAlbums = (request, response) => {
+  Album.find({ artist: request.params.artistId }).populate('artist').exec((error, albums) => {
+    if (error) {
+      response.json('Unable to retrieve albums');
+    }
+
+    response.json(albums);
   });
 };
 
